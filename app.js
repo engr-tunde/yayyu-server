@@ -51,6 +51,8 @@ app.get("/", (req, res) => {
 
 app.listen(process.env.APP_PORT || 7000, () => {
   connect();
-  // console.log(`Jest version: ${jest.version}`);
   console.log(`Listening to requests on port ${process.env.APP_PORT}`);
+  setTimeout(() => {
+    console.log("server is live");
+  }, 300000);
 });
