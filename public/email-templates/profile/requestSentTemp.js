@@ -1,11 +1,12 @@
-const { emailFooter } = require("../../includes/footer.template");
-const { emailHead } = require("../../includes/head.template");
+const { emailFooter } = require("../includes/footer.template");
+const { emailHead } = require("../includes/head.template");
 
-const verifyEmailCodeTemp = (first_name, otp) => {
+const requestSentTemp = (newServiceRequest) => {
   const head = emailHead();
   const footer = emailFooter();
 
   const body = `
+
     <table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-size: auto;">
       <tbody>
         <tr>
@@ -17,7 +18,9 @@ const verifyEmailCodeTemp = (first_name, otp) => {
                     <table class="heading_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
                       <tr>
                         <td class="pad" style="padding-bottom:20px;padding-top:10px;text-align:center;width:100%;">
-                          <h2 style="margin: 0; color: #148674; direction: ltr; font-family: Inter, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">Dear ${first_name},&nbsp;</span></h2>
+                          <h2 style="margin: 0; color: #148674; direction: ltr; font-family: Inter, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">Dear ${
+                            newServiceRequest.name.split(" ")[0]
+                          },&nbsp;</span></h2>
                         </td>
                       </tr>
                     </table>
@@ -26,25 +29,13 @@ const verifyEmailCodeTemp = (first_name, otp) => {
                         <td class="pad">
                           <div style="color:#201f42;direction:ltr;font-family:Inter, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:150%;text-align:left;mso-line-height-alt:21px;">
                             <p style="margin: 0; margin-bottom: 0px;">
-                              Welcome to ${process.env.APP_NAME}! A platform where your cyrptocurrecny related problesms are solved through inteligence gathering.
+                              This is to inform you that your attempt to request for our service has been well received. Kindly look forward to hearing from yus soon. The details of the service requested for and other details submitted are highlighted below.
                             </p>
                             <p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
                             <p style="margin: 0; margin-bottom: 0px;">
-                               Our mission is to help investigate, monitor, and detect crypto and digital asset fraud and financial crimes. With us, you have the confidence of getting issues around your digital assets portfolios, assets loss recovery, key phrase issues, staking management across all paltforms among others resolved.
+                              This is to inform you that your attempt to request for our service has been well received. Kindly look forward to hearing from yus soon. The details of the service requested for and other details submitted are highlighted below.
                             </p>
-                            <p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
-                            <p style="margin: 0; margin-bottom: 0px;">
-                              To get started, veriify your email account by using the One Time Passsword code seen below. 
-                            </p>
-                            <p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
                           </div>
-                        </td>
-                      </tr>
-                    </table>
-                    <table class="button_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                      <tr>
-                        <td class="pad" style="padding-bottom:15px;padding-top:20px;text-align:center;">
-                          <div class="alignment" align="center"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.example.com" style="height:46px;width:170px;v-text-anchor:middle;" arcsize="0%" strokeweight="0.75pt" strokecolor="#201F42" fillcolor="#201f42"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Georgia, serif; font-size:17px"><![endif]--><a style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#201f42;border-radius:0px;width:auto;border-top:1px solid #201F42;font-weight:400;border-right:1px solid #201F42;border-bottom:1px solid #201F42;border-left:1px solid #201F42;padding-top:5px;padding-bottom:5px;font-family:'Noto Serif', Georgia, serif;font-size:17px;text-align:center;cursor: normal;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:70px;padding-right:70px;font-size:24px;display:inline-block;"><span style="word-break: break-word; line-height: 34px;"><strong>${otp}</strong></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
                         </td>
                       </tr>
                     </table>
@@ -53,7 +44,9 @@ const verifyEmailCodeTemp = (first_name, otp) => {
                       <tr>
                         <td class="pad" style="padding-top:10px;">
                           <div style="color:#201f42;direction:ltr;font-family:Inter, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:150%;text-align:left;mso-line-height-alt:21px;">
-                            <p style="margin: 0;">The verification code will be valid for 30 minutes. Please do not share this code with anyone. Contact us if you do not recognize tis activity. Welcome to ${process.env.APP_NAME} once again.</p>
+                            <p style="margin: 0;">If you did not sanction this activity, be sure to get in touch with our customer support team. Welcome to ${
+                              process.env.APP_NAME
+                            } once again.</p>
                           </div>
                         </td>
                       </tr>
@@ -67,6 +60,7 @@ const verifyEmailCodeTemp = (first_name, otp) => {
       </tbody>
     </table>
 
+
   `;
 
   const template = `${head} ${body} ${footer}`;
@@ -75,5 +69,5 @@ const verifyEmailCodeTemp = (first_name, otp) => {
 };
 
 module.exports = {
-  verifyEmailCodeTemp,
+  requestSentTemp,
 };

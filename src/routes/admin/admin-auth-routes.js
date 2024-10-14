@@ -21,6 +21,7 @@ const { validateUpdateWallet, validate } = require('../../middlewares/validator'
 const router = express.Router();
 
 router.get('/get-wallet-address', getWalletAddress);
+router.get('/get-admin-wallet-address', verifyAdminLoginToken, getWalletAddress);
 router.put(
   '/update-wallet-address/:id',
   verifyAdminLoginToken,

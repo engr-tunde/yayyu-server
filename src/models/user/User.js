@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
@@ -11,29 +11,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  wallet: {
-    type: String,
-  },
-  network: {
-    type: String,
-  },
   country: {
     type: String,
   },
   phone: {
     type: String,
-  },
-  deposite_balance: {
-    type: Number,
-    default: 0,
-  },
-  total_balance: {
-    type: Number,
-    default: 0,
-  },
-  profit_balance: {
-    type: Number,
-    default: 0,
   },
   password: {
     type: String,
@@ -42,7 +24,7 @@ const userSchema = new Schema({
   },
   status: {
     type: String,
-    default: 'Pending',
+    default: "Pending",
   },
   email_verified: {
     type: Boolean,
@@ -55,4 +37,4 @@ const userSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);

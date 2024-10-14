@@ -16,6 +16,7 @@ router.post('/create-ad-post', verifyAdminLoginToken, validateAddAdPost, validat
 router.put('/update-ad-post/:id', verifyAdminLoginToken, updateAdPost);
 router.delete('/delete-ad-post/:id', verifyAdminLoginToken, deleteAdPost);
 router.get('/all-ad-posts', fetchAllAdposts);
+router.get('/admin-all-ad-posts', verifyAdminLoginToken, fetchAllAdposts);
 router.get('/single-ad-post/:id', fetchSingleAdPost);
 router.get('/fetch-ad-post/:slug', fetchAdPostBySlug);
 

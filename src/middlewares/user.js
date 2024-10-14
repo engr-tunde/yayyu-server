@@ -1,51 +1,43 @@
-const { isValidObjectId } = require('mongoose');
-const { sendError, sendLoginError } = require('../utils/helpers');
-const User = require('../models/user/User');
-const ResetPasswordToken = require('../models/user/ResetPasswordToken');
+const { isValidObjectId } = require("mongoose");
+const {
+  sendError,
+  sendLoginError,
+  sendTryCtachError,
+} = require("../utils/helpers");
+const User = require("../models/user/User");
+const ResetPasswordToken = require("../models/user/ResetPasswordToken");
 
 const validateNewUser = async (req, res, next) => {
-  const { name, email, wallet, network, country, phone, password } = req.body;
-  const refinedEmail = email.toLowerCase();
-  let existingUser;
-
+  req.body.email = req.body.email.toLowerCase();
   try {
-    existingUser = await User.findOne({ email: refinedEmail });
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return sendError(res, "Email already exists. Please login instead.", 206);
+    }
   } catch (err) {
-    console.log(err);
+    return sendTryCtachError(res, err);
   }
-  if (existingUser) {
-    return sendError(res, 'Email already exists. Please login instead.', 206);
-  }
-  req.body = {
-    name,
-    email: refinedEmail,
-    wallet,
-    network,
-    country,
-    phone,
-    password,
-  };
   next();
 };
 
 const isPasswordResetTokenValid = async (req, res, next) => {
   const { token, id } = req.query;
 
-  if (!token || !id) return sendError(res, 'Invalid request');
+  if (!token || !id) return sendError(res, "Invalid request");
 
-  if (!isValidObjectId(id)) return sendError(res, 'Invalid user');
+  if (!isValidObjectId(id)) return sendError(res, "Invalid user");
 
   const user = await User.findById(id);
 
-  if (!user) return sendError(res, 'User not found');
+  if (!user) return sendError(res, "User not found");
 
   const resToken = await ResetPasswordToken.findOne({ owner: user._id });
-  if (!resToken) return sendError(res, 'Reset token not found');
+  if (!resToken) return sendError(res, "Reset token not found");
 
   const resetToken = resToken.token;
 
   if (token !== resetToken) {
-    return sendError(res, 'Reset token is invalid');
+    return sendError(res, "Reset token is invalid");
   }
 
   req.body.user = user;
@@ -61,7 +53,7 @@ const validateLoginType = async (req, res, next) => {
   userIdentity = email.toLowerCase();
 
   if (!email) {
-    return sendLoginError(res, 'email is missing', 1);
+    return sendLoginError(res, "email is missing", 1);
   }
 
   try {
@@ -70,7 +62,7 @@ const validateLoginType = async (req, res, next) => {
     return sendLoginError(res, err.message, 1, 500);
   }
   if (!user) {
-    return sendLoginError(res, 'Email not registered. Signup instead.', 1, 206);
+    return sendLoginError(res, "Email not registered. Signup instead.", 1, 206);
   }
 
   req.body = {

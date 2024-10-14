@@ -18,6 +18,7 @@ const getWalletAddress = async (req, res) => {
 };
 
 const updateWalletAddress = async (req, res) => {
+  console.log('req.body ', req.body);
   try {
     const wallet = await Wallet.findById(req.params.id);
     if (!wallet) {
@@ -115,11 +116,11 @@ const loginAdmin = async (req, res, next) => {
   }
 
   const token = jwt.sign({ id: existingAdmin._id }, process.env.JWT_ADMIN_SECRET_KEY, {
-    expiresIn: '5d',
+    expiresIn: '15m',
   });
   res.cookie(String(existingAdmin._id), token, {
     path: '/',
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
+    expires: new Date(Date.now() + 1000 * 60 * 15),
     httpOnly: true,
     sameSite: 'lax',
     // sameSite: 'none',
@@ -158,8 +159,8 @@ const verifyAdminLoginToken = (req, res, next) => {
       return sendError(res, 'Invalid authorisation token', 209);
     }
     req.id = admin.id;
+    next();
   });
-  next();
 };
 
 const getAdmin = async (req, res) => {

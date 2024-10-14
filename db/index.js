@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const connect = () => {
   mongoose
@@ -7,16 +7,16 @@ const connect = () => {
       useUnifiedTopology: true,
     })
     .then(() => {
-      console.log('Server has been connected to database');
+      console.log("Server has been connected to database");
     })
     .catch((err) => console.log(err));
 };
 
-mongoose.connection.on('disconnected', () => {
-  console.log('MongoDB Database disconnected');
+mongoose.connection.on("disconnected", () => {
+  console.log("MongoDB Database disconnected");
 });
-mongoose.connection.on('connected', () => {
-  console.log('MongoDB Database now connected!');
+mongoose.connection.on("connected", () => {
+  console.log("MongoDB Database now connected!");
 });
 
 module.exports = {

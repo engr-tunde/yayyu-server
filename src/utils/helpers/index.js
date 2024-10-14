@@ -1,8 +1,15 @@
-const crypto = require('crypto');
-const User = require('../../models/user/User');
+const crypto = require("crypto");
+const User = require("../../models/user/User");
 
 exports.sendError = (res, error, status = 206) => {
   res.status(status).json({ success: false, error });
+};
+exports.sendTryCtachError = (res, error) => {
+  console.log(`Unable to perform the action. Reason - ${error}`);
+  return res.status(401).json({
+    success: false,
+    message: `Unable to perform the action. Reason - ${error}`,
+  });
 };
 exports.badRequestError = (res, error, status = 400) => {
   res.status(status).json({ success: false, error });
@@ -18,13 +25,13 @@ exports.createRandomBytes = () =>
   new Promise((resolve, reject) => {
     crypto.randomBytes(30, (err, buff) => {
       if (err) reject(err);
-      const token = buff.toString('hex');
+      const token = buff.toString("hex");
       resolve(token);
     });
   });
 
 exports.generateOTP = () => {
-  let otp = '';
+  let otp = "";
   for (let i = 0; i <= 3; i++) {
     const randVal = Math.round(Math.random() * 9);
     otp = otp + randVal;
@@ -33,14 +40,14 @@ exports.generateOTP = () => {
 };
 
 exports.formatCurrency = (value) => {
-  return value.toLocaleString('en-US', { style: 'currency', currency: 'NGN' });
+  return value.toLocaleString("en-US", { style: "currency", currency: "NGN" });
 };
 
 exports.checkUserEmailReg = async (email) => {
   let existingUser;
   try {
-    existingUser = await User.findOne({ email }, '-password');
-    console.log('User exists: ', existingUser);
+    existingUser = await User.findOne({ email }, "-password");
+    console.log("User exists: ", existingUser);
     if (existingUser) {
       return existingUser;
     } else {
@@ -55,8 +62,25 @@ exports.checkUserEmailReg = async (email) => {
 exports.generateSlug = (title) => {
   const sanitisedTitle = title.replace(
     /[\\\.\,\+\*\?\^\$\@\#\%\^\&\*\-\_\[\]\(\)\{\}\/\'\#\:\!\=\|]/gi,
-    ''
+    ""
   );
-  const slug = sanitisedTitle.split(' ').join('-');
+  const slug = sanitisedTitle.split(" ").join("-");
   return slug;
+};
+
+exports.generateServiceID = (service) => {
+  let otp = "";
+  for (let i = 0; i <= 10; i++) {
+    const randVal = Math.round(Math.random() * 9);
+    otp = otp + randVal;
+  }
+
+  const sanitisedTitle = service.replace(
+    /[\\\.\,\+\*\?\^\$\@\#\%\^\&\*\-\_\[\]\(\)\{\}\/\'\#\:\!\=\|]/gi,
+    ""
+  );
+  const slug = sanitisedTitle.split(" ").join("-");
+
+  const serviceId = `${slug}${otp}`;
+  return serviceId;
 };
