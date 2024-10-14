@@ -23,7 +23,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:5173",
       "http://localhost:5174",
-      "http://elder-intelligence.vercel.app",
+      "https://elder-intelligence.vercel.app",
       "https://elder-intelligence.vercel.app",
       "https://elder-intelligence-admin.vercel.app",
       "http://admin.elderintelligence.com",
