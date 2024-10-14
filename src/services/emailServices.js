@@ -16,6 +16,9 @@ const {
   profileUpdatedTemp,
 } = require("../../public/email-templates/profile/profileUpdated.template");
 const { sendSuccess } = require("../utils/helpers");
+const {
+  requestSentTemp,
+} = require("../../public/email-templates/profile/requestSentTemp");
 
 // General
 const verificationEmail = async (req, res) => {
@@ -110,7 +113,7 @@ const profileUpdatedEmail = async (req, res) => {
 const requestSentEmail = async (req, res) => {
   const { newServiceRequest } = req.body;
   const subject = "Your Request Has Been Received";
-  const email_body = passwordUpdatedTemp(newServiceRequest);
+  const email_body = requestSentTemp(newServiceRequest);
   try {
     sendEmail(subject, email_body, newServiceRequest.email);
   } catch (error) {
