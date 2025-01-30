@@ -41,6 +41,7 @@ const isPasswordResetTokenValid = async (req, res, next) => {
   }
 
   req.body.user = user;
+  console.log({ user });
   next();
 };
 

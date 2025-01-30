@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const {
   isAdminPasswordResetTokenValid,
   validateAdminLoginType,
-} = require('../../middlewares/admin');
+} = require("../../middlewares/admin");
 const {
   forgotPassword,
   resetPassword,
@@ -12,32 +12,28 @@ const {
   verifyAdminLoginToken,
   getAdmin,
   adminUpdateProfile,
-  getWalletAddress,
-  updateWalletAddress,
-} = require('../../controllers/admin/admin-auth-controller');
-const { resetPasswordEmail, passwordUpdatedEmail } = require('../../services/emailServices');
-const { validateUpdateWallet, validate } = require('../../middlewares/validator');
+} = require("../../controllers/admin/admin-auth-controller");
+const {
+  resetPasswordEmail,
+  passwordUpdatedEmail,
+} = require("../../services/emailServices");
+const { validate } = require("../../middlewares/validator");
 
 const router = express.Router();
 
-router.get('/get-wallet-address', getWalletAddress);
-router.get('/get-admin-wallet-address', verifyAdminLoginToken, getWalletAddress);
-router.put(
-  '/update-wallet-address/:id',
-  verifyAdminLoginToken,
-  validateUpdateWallet,
-  validate,
-  updateWalletAddress
+router.post("/forgot-password", forgotPassword, resetPasswordEmail);
+router.post(
+  "/reset-password",
+  isAdminPasswordResetTokenValid,
+  resetPassword,
+  passwordUpdatedEmail
 );
+router.post("/login", validateAdminLoginType, loginAdmin);
 
-router.post('/forgot-password', forgotPassword, resetPasswordEmail);
-router.post('/reset-password', isAdminPasswordResetTokenValid, resetPassword, passwordUpdatedEmail);
-router.post('/login', validateAdminLoginType, loginAdmin);
+router.get("/get-admin", verifyAdminLoginToken, getAdmin);
+router.put("/edit-profile", verifyAdminLoginToken, adminUpdateProfile);
 
-router.get('/get-admin', verifyAdminLoginToken, getAdmin);
-router.put('/edit-profile', verifyAdminLoginToken, adminUpdateProfile);
-
-router.get('/check-session', isAdminLogin);
-router.post('/logout', logoutAdmin);
+router.get("/check-session", isAdminLogin);
+router.post("/logout", logoutAdmin);
 
 module.exports = router;

@@ -1,9 +1,9 @@
 const multer = require("multer");
 const path = require("path");
 
-const idStorage = multer.diskStorage({
+const productStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/files/imgs/ids");
+    cb(null, "public/files/imgs/products");
   },
   filename: (req, file, cb) => {
     cb(
@@ -15,12 +15,12 @@ const idStorage = multer.diskStorage({
     );
   },
 });
-const idUpload = multer({ storage: idStorage });
-const idImageUpload = idUpload.fields([
-  { name: "iDFront", maxCount: 1 },
-  { name: "iDBack", maxCount: 1 },
+const productUpload = multer({ storage: productStorage });
+const productImageUpload = productUpload.fields([
+  { name: "img", maxCount: 1 },
+  { name: "images", maxCount: 30 },
 ]);
 
 module.exports = {
-  idImageUpload,
+  productImageUpload,
 };

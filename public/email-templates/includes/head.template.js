@@ -149,14 +149,14 @@ const emailHead = () => {
 <tbody>
 <tr>
 	<td>
-		<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; background-color: #efeef4; border: 0 solid #efeef4; width: 700px; margin: 0 auto;" width="700">
+		<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; background-color: #efefef; border: 2px solid #FCBA41; width: 700px; margin: 0 auto;" width="700">
 			<tbody>
 				<tr>
 					<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; padding-top: 20px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
 						<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 							<tr>
 								<td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
-									<div class="alignment" align="center" style="line-height:10px"><img src="https://demo.stripocdn.email/content/guids/9e518712-bf9f-457a-9ab3-0c4363bb594a/images/logo.png" style="height: auto; display: block; border: 0; max-width: 130px; width: 100%;" width="130"></div>
+									<div class="alignment" align="center" style="line-height:10px"><img src="https://demo.stripocdn.email/content/guids/7dd4ff09-31e5-485e-be6b-f1cca53aad02/images/logo.png" style="height: auto; display: block; border: 0; max-width: 130px; width: 100%;" width="130"></div>
 								</td>
 							</tr>
 						</table>

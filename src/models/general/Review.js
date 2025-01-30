@@ -1,31 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const adSchema = new Schema({
-  title: {
+const reviewSchema = new Schema({
+  owner: {
     type: String,
     required: true,
   },
-  whatsapp: {
+  reviewer: {
     type: String,
     required: true,
   },
-  telegram: {
+  rating: {
     type: String,
     required: true,
   },
-  slug: {
+  review: {
     type: String,
     required: true,
   },
-  content: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
+  created_at: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model('Ad', adSchema);
+module.exports = mongoose.model("Review", reviewSchema);

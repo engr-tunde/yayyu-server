@@ -1,5 +1,5 @@
-const { emailFooter } = require('../../includes/footer.template');
-const { emailHead } = require('../../includes/head.template');
+const { emailFooter } = require("../../includes/footer.template");
+const { emailHead } = require("../../includes/head.template");
 
 const emailVerifiedTemp = (firstName) => {
   const head = emailHead();
@@ -19,7 +19,7 @@ const emailVerifiedTemp = (firstName) => {
 			<table class="heading_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 				<tr>
 					<td class="pad" style="padding-bottom:20px;padding-top:10px;text-align:center;width:100%;">
-						<h2 style="margin: 0; color: #148674; direction: ltr; font-family: Inter, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">Dear ${firstName},&nbsp;</span></h2>
+						<h2 style="margin: 0; color: #000; direction: ltr; font-family: Inter, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">Dear ${firstName},&nbsp;</span></h2>
 					</td>
 				</tr>
 			</table>
@@ -27,10 +27,17 @@ const emailVerifiedTemp = (firstName) => {
 				<tr>
 					<td class="pad">
 						<div style="color:#201f42;direction:ltr;font-family:Inter, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:150%;text-align:left;mso-line-height-alt:21px;">
-							<p style="margin: 0; margin-bottom: 0px;">Congratulations on being part of the ${process.env.APP_NAME} ecosystem. This is to inform you that your account has been verified.</p>
+							<p style="margin: 0; margin-bottom: 0px;">Congratulations on being part of the ${process.env.APP_NAME} ecosystem. This is to inform you that your account has been successfully verified.</p>
 							<p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
-							<p style="margin: 0; margin-bottom: 0px;">${process.env.APP_NAME} is a platform that makes it easy to...</p>
+							<p style="margin: 0; margin-bottom: 0px;">You can now log in using your email address and password and make your first or subsequent order via the following URL</p>
 							<p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
+                            <a href="https://yayyulifestyle.com/shop" style="margin: 0; margin-bottom: 0px;">
+                              Yayyulifestyle.com/shop
+                            </a>
+							<p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
+                            <p style="margin: 0; margin-bottom: 0px;">
+                              Thank you and welcome once again. Happy shopping!
+                            </p>
 							<p style="margin: 0;">&nbsp;</p>
 						</div>
 					</td>

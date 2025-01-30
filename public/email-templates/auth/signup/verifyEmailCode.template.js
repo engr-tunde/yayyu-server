@@ -17,20 +17,28 @@ const verifyEmailCodeTemp = (first_name, otp) => {
                     <table class="heading_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
                       <tr>
                         <td class="pad" style="padding-bottom:20px;padding-top:10px;text-align:center;width:100%;">
-                          <h2 style="margin: 0; color: #148674; direction: ltr; font-family: Inter, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">Dear ${first_name},&nbsp;</span></h2>
+                          <h2 style="margin: 0; color: #000; direction: ltr; font-family: Inter, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;"><span class="tinyMce-placeholder">Dear ${first_name},&nbsp;</span></h2>
                         </td>
                       </tr>
                     </table>
                     <table class="paragraph_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
                       <tr>
                         <td class="pad">
-                          <div style="color:#201f42;direction:ltr;font-family:Inter, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:150%;text-align:left;mso-line-height-alt:21px;">
+                          <div style="color:#020202;direction:ltr;font-family:Inter, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:150%;text-align:left;mso-line-height-alt:21px;">
                             <p style="margin: 0; margin-bottom: 0px;">
-                              Welcome to ${process.env.APP_NAME}! A platform where your cyrptocurrecny related problesms are solved through inteligence gathering.
+                              Welcome and thank you for registering at Yayyulifestyle!
                             </p>
                             <p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
                             <p style="margin: 0; margin-bottom: 0px;">
-                               Our mission is to help investigate, monitor, and detect crypto and digital asset fraud and financial crimes. With us, you have the confidence of getting issues around your digital assets portfolios, assets loss recovery, key phrase issues, staking management across all paltforms among others resolved.
+                              Your account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:
+                            </p>
+                            <p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
+                            <a href="https://yayyulifestyle.com" style="margin: 0; margin-bottom: 0px;">
+                              Yayyulifestyle.com
+                            </a>
+                            <p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
+                            <p style="margin: 0; margin-bottom: 0px;">
+                              Upon logging in, you will be able to access other services including reviewing past orders, wish list and editing your account information.
                             </p>
                             <p style="margin: 0; margin-bottom: 0px;">&nbsp;</p>
                             <p style="margin: 0; margin-bottom: 0px;">
@@ -44,7 +52,7 @@ const verifyEmailCodeTemp = (first_name, otp) => {
                     <table class="button_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
                       <tr>
                         <td class="pad" style="padding-bottom:15px;padding-top:20px;text-align:center;">
-                          <div class="alignment" align="center"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.example.com" style="height:46px;width:170px;v-text-anchor:middle;" arcsize="0%" strokeweight="0.75pt" strokecolor="#201F42" fillcolor="#201f42"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Georgia, serif; font-size:17px"><![endif]--><a style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#201f42;border-radius:0px;width:auto;border-top:1px solid #201F42;font-weight:400;border-right:1px solid #201F42;border-bottom:1px solid #201F42;border-left:1px solid #201F42;padding-top:5px;padding-bottom:5px;font-family:'Noto Serif', Georgia, serif;font-size:17px;text-align:center;cursor: normal;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:70px;padding-right:70px;font-size:24px;display:inline-block;"><span style="word-break: break-word; line-height: 34px;"><strong>${otp}</strong></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
+                          <div class="alignment" align="center"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.example.com" style="height:46px;width:170px;v-text-anchor:middle;" arcsize="0%" strokeweight="0.75pt" strokecolor="#FCBA41" fillcolor="#FCBA41"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#000; font-family:Georgia, serif; font-size:17px"><![endif]--><a style="text-decoration:none;display:inline-block;color:#000;background-color:#FCBA41;border-radius:0px;width:auto;border-top:1px solid #FCBA41;font-weight:400;border-right:1px solid #FCBA41;border-bottom:1px solid #FCBA41;border-left:1px solid #FCBA41;padding-top:5px;padding-bottom:5px;font-family:'Noto Serif', Georgia, serif;font-size:17px;text-align:center;cursor: normal;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:70px;padding-right:70px;font-size:24px;display:inline-block;"><span style="word-break: break-word; line-height: 34px;"><strong>${otp}</strong></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
                         </td>
                       </tr>
                     </table>
@@ -52,7 +60,7 @@ const verifyEmailCodeTemp = (first_name, otp) => {
                     <table class="paragraph_block block-5" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
                       <tr>
                         <td class="pad" style="padding-top:10px;">
-                          <div style="color:#201f42;direction:ltr;font-family:Inter, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:150%;text-align:left;mso-line-height-alt:21px;">
+                          <div style="color:#020202;direction:ltr;font-family:Inter, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:150%;text-align:left;mso-line-height-alt:21px;">
                             <p style="margin: 0;">The verification code will be valid for 30 minutes. Please do not share this code with anyone. Contact us if you do not recognize tis activity. Welcome to ${process.env.APP_NAME} once again.</p>
                           </div>
                         </td>

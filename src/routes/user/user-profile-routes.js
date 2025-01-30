@@ -3,43 +3,24 @@ const {
   getUser,
   updateUserProfile,
   updateUserPassword,
-  requestService,
-  fetchUserServiceRequests,
+  fetchUserOrders,
 } = require("../../controllers/user/user-profile-controller");
 const {
   verifyUserLoginToken,
 } = require("../../controllers/user/user-auth-controller");
-const {
-  passwordUpdatedEmail,
-  requestSentEmail,
-} = require("../../services/emailServices");
+const { passwordUpdatedEmail } = require("../../services/emailServices");
 const {
   validate,
   validateUpdateProfileUserParams,
   validateUpdatePasswordParams,
-  validateRequestServiceParams,
 } = require("../../middlewares/validator");
-const { idImageUpload } = require("../../utils/helpers/files");
 
 const router = express.Router();
 
 // Profile
 router.get("/user", verifyUserLoginToken, getUser);
-router.post(
-  "/request-service",
-  verifyUserLoginToken,
-  idImageUpload,
-  requestService,
-  requestSentEmail
-);
-router.get("/my-requests", verifyUserLoginToken, fetchUserServiceRequests);
-router.put(
-  "/update-profile",
-  verifyUserLoginToken,
-  validateUpdateProfileUserParams,
-  validate,
-  updateUserProfile
-);
+router.get("/orders", verifyUserLoginToken, fetchUserOrders);
+router.put("/update-profile", verifyUserLoginToken, updateUserProfile);
 router.put(
   "/update-password",
   verifyUserLoginToken,

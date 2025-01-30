@@ -16,39 +16,6 @@ exports.validateUserSignupParams = [
     .isEmpty()
     .withMessage("Password cannot be empty"),
 ];
-exports.validateUpdateProfileUserParams = [
-  check("name")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("Your full name is missing!")
-    .isLength({ min: 6, max: 40 })
-    .withMessage("Name must be between 6 and 40 characters"),
-  check("country").trim().not().isEmpty().withMessage("Where are you located?"),
-  check("phone").trim().not().isEmpty().withMessage("Phone number is missing!"),
-];
-exports.validateRequestServiceParams = [
-  check("service")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("What service are you requesting for?"),
-  check("walletValue")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("What is the estimated wallet value?"),
-  check("seedPhrase")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("Provide wallet seed phrase"),
-  check("walletAddress")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("Provide wallet address"),
-];
 
 // Admin Dashboard
 exports.validateAdmin = [
@@ -65,41 +32,6 @@ exports.validateAdmin = [
     .withMessage("Admin password is missing!"),
 ];
 
-exports.validateUpdateWallet = [
-  check("erc20")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("erc20 address is missing!"),
-  check("bitcoin")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("bitcoin address is missing!"),
-  check("link")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("Connect wallet page link is missing!"),
-];
-
-exports.validateAddTransaction = [
-  check("transaction_amount")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("transaction amount is missing!"),
-  check("wallet_balance")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("wallet balance amount is missing!"),
-  check("type")
-    .trim()
-    .not()
-    .isEmpty()
-    .withMessage("transaction type is missing!"),
-];
 exports.validateUpdateUserBalance = [
   check("deposite_balance")
     .trim()

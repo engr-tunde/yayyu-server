@@ -15,16 +15,16 @@ const {
 const {
   profileUpdatedTemp,
 } = require("../../public/email-templates/profile/profileUpdated.template");
-const { sendSuccess } = require("../utils/helpers");
+const { sendSuccess, sendError } = require("../utils/helpers");
 const {
-  requestSentTemp,
-} = require("../../public/email-templates/profile/requestSentTemp");
+  orderSuccessfulTemp,
+} = require("../../public/email-templates/profile/orderSuccessfulTemp");
 
 // General
 const verificationEmail = async (req, res) => {
   const { user, otp } = req.body;
-  const first_name = user.name.split(" ")[0];
-  const subject = `Verify Your Email`;
+  const first_name = user.first_name;
+  const subject = `Thank You for Registering! Verify Your Email`;
   const email_body = verifyEmailCodeTemp(first_name, otp);
   try {
     sendEmail(subject, email_body, user.email);
@@ -40,7 +40,7 @@ const verificationEmail = async (req, res) => {
 const emailVerifiedEmail = async (req, res) => {
   const { user } = req.body;
   const email = user.email;
-  const firstName = user.name.split(" ")[0];
+  const firstName = user.first_name;
   const subject = `Your Email Has Been Verified`;
   const email_body = emailVerifiedTemp(firstName);
   try {
@@ -51,8 +51,7 @@ const emailVerifiedEmail = async (req, res) => {
   return res.status(200).json({
     success: true,
     loginStatus: 2,
-    message:
-      "Your email has been successfully verified, and you are now logged in",
+    message: "Your email has been successfully verified. Happy shopping!",
     user: {
       first_name: user.first_name,
       last_name: user.last_name,
@@ -65,7 +64,7 @@ const emailVerifiedEmail = async (req, res) => {
 const resetPasswordEmail = async (req, res) => {
   const { user, token } = req.body;
   const email = user.email;
-  const firstName = user.name.split(" ")[0];
+  const firstName = user.first_name;
 
   const link = `${process.env.USER_APP_URL}/reset-password?token=${token}&id=${user._id}`;
   const subject = `Reset Your Password`;
@@ -85,7 +84,7 @@ const resetPasswordEmail = async (req, res) => {
 };
 const passwordUpdatedEmail = async (req, res) => {
   const { user } = req.body;
-  const firstName = user.name.split(" ")[0];
+  const firstName = user.first_name;
   const subject = `Your Password Has Been Updated`;
   const email_body = passwordUpdatedTemp(firstName);
   try {
@@ -99,7 +98,7 @@ const passwordUpdatedEmail = async (req, res) => {
 // Profile
 const profileUpdatedEmail = async (req, res) => {
   const { user } = req.body;
-  const fName = user.name.split(" ")[0];
+  const fName = user.first_name;
   const subject = `Your Profile Has Been Updated`;
   const email_body = profileUpdatedTemp(fName);
   try {
@@ -110,20 +109,19 @@ const profileUpdatedEmail = async (req, res) => {
   return sendSuccess(res, "Your profile has been successfully updated");
 };
 
-const requestSentEmail = async (req, res) => {
-  const { newServiceRequest } = req.body;
-  const subject = "Your Request Has Been Received";
-  const email_body = requestSentTemp(newServiceRequest);
+const orderSuccessfulEmail = async (req, res) => {
+  const { newOrder, new_user } = req.body;
+  const subject = `Your Purhase Order is Successful`;
+  const email_body = orderSuccessfulTemp(newOrder);
   try {
-    sendEmail(subject, email_body, newServiceRequest.email);
+    sendEmail(subject, email_body, newOrder.email);
   } catch (error) {
     return sendError(res, error.message, 500);
   }
-  return sendSuccess(
-    res,
-    "Your request has been sent! We will get in touch soon",
-    newServiceRequest
-  );
+  return sendSuccess(res, "Your order has been successfully completed", {
+    order: newOrder,
+    new_user,
+  });
 };
 
 module.exports = {
@@ -133,5 +131,5 @@ module.exports = {
   passwordUpdatedEmail,
 
   profileUpdatedEmail,
-  requestSentEmail,
+  orderSuccessfulEmail,
 };

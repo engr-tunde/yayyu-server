@@ -1,55 +1,58 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const serviceRequestSchema = new Schema({
-  owner: {
+const productSchema = new Schema({
+  added_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Admin",
+    required: true,
+  },
+  item_name: {
     type: String,
     required: true,
   },
-  email: {
+  item_slug: {
     type: String,
     required: true,
   },
-  name: {
+  category: {
     type: String,
     required: true,
   },
-  service: {
+  description: {
     type: String,
     required: true,
   },
-  walletValue: {
+  specification: {
+    type: Array,
+    required: true,
+  },
+  original_price: {
     type: String,
     required: true,
   },
-  seedPhrase: {
+  new_price: {
     type: String,
     required: true,
   },
-  walletAddress: {
+  sizes: {
+    type: Array,
+  },
+  colors: {
+    type: Array,
+  },
+  img: {
     type: String,
     required: true,
   },
-  iDFront: {
+  images: {
     type: String,
     required: true,
   },
-  iDBack: {
-    type: String,
-    required: true,
-  },
-  serviceSlug: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type: String,
-    default: "Pending",
-  },
-  createdAt: {
+  created_at: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model("ServiceRequest", serviceRequestSchema);
+module.exports = mongoose.model("Product", productSchema);

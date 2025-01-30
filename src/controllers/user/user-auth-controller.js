@@ -155,6 +155,7 @@ const forgotPassword = async (req, res, next) => {
 
 const resetPassword = async (req, res, next) => {
   const { user, password } = req.body;
+  console.log({ password });
   const isPasswordSame = bcrypt.compareSync(password, user.password);
   if (isPasswordSame)
     return sendError(
@@ -179,6 +180,7 @@ const resetPassword = async (req, res, next) => {
 // LOGIN
 const login = async (req, res, next) => {
   const { user, password } = req.body;
+  console.log({ user });
 
   const isPasswordCorrect = bcrypt.compareSync(password, user.password);
   if (!isPasswordCorrect) {
@@ -195,14 +197,14 @@ const login = async (req, res, next) => {
   console.log("Login phase 1 checked");
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_USER_SECRET_KEY, {
-    expiresIn: "10m",
+    expiresIn: "1d",
   });
   res.cookie(String(user._id), token, {
     path: "/",
-    expires: new Date(Date.now() + 1000 * 60 * 10),
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
     httpOnly: true,
     sameSite: "lax",
-    // sameSite: 'none',
+    // sameSite: "none",
     // secure: true,
   });
   return res.status(200).json({
@@ -214,14 +216,33 @@ const login = async (req, res, next) => {
 };
 
 const isUserLogin = async (req, res) => {
+  // const cookies = req.headers.cookie;
+  // if (cookies) {
+  //   return res
+  //     .status(200)
+  //     .json({ success: true, message: "You are a logged in user" });
+  // } else if (!cookies) {
+  //   return sendError(res, "No session found. You are not logged in");
+  // }
+
   const cookies = req.headers.cookie;
-  if (cookies) {
+  if (!cookies) {
+    return sendError(res, "No session cookie. Please login first", 209);
+  }
+  console.log("cookie:", cookies);
+  const token = cookies.split("=")[1];
+  if (!token) {
+    return sendError(res, "No session token. Please login first", 209);
+  }
+  console.log("token:", token);
+  jwt.verify(String(token), process.env.JWT_USER_SECRET_KEY, (err, user) => {
+    if (err) {
+      return sendError(res, "Invalid Login Token", 209);
+    }
     return res
       .status(200)
       .json({ success: true, message: "You are a logged in user" });
-  } else if (!cookies) {
-    return sendError(res, "No session found. You are not logged in");
-  }
+  });
 };
 
 const verifyUserLoginToken = (req, res, next) => {
