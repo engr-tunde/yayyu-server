@@ -31,8 +31,8 @@ const addProduct = async (req, res) => {
       "-" +
       req.body.new_price +
       "-" +
-      req.body.colors.split(",")[0];
-    req.body.colors = req.body.colors.split(", ");
+      req.body.colors.split(",")[0].toLowerCase();
+    req.body.colors = req.body.colors.toLowerCase().split(", ");
   } else {
     item_slug = item_slug + "-" + req.body.new_price;
   }
@@ -48,6 +48,8 @@ const addProduct = async (req, res) => {
     req.body.added_by = req.id;
     req.body.item_slug = item_slug;
     req.body.description = req.body.specification;
+    req.body.original_price = Number(req.body.original_price);
+    req.body.new_price = Number(req.body.new_price);
     req.body.specification = req.body.specification.split(". ");
     const newProduct = new Product(req.body);
 

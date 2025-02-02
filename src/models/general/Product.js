@@ -28,11 +28,11 @@ const productSchema = new Schema({
     required: true,
   },
   original_price: {
-    type: String,
+    type: Number,
     required: true,
   },
   new_price: {
-    type: String,
+    type: Number,
     required: true,
   },
   sizes: {
