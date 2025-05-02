@@ -26,8 +26,7 @@ app.use(
       "http://localhost:5173",
       "http://192.168.0.159:5173",
       "http://localhost:5174",
-      "https://yayyu.vercel.app",
-      "https://yayyu-admin.vercel.app",
+      "https://yayyu-website.onrender.com",
     ],
   })
 );
