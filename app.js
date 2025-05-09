@@ -52,6 +52,6 @@ app.listen(process.env.APP_PORT || 7000, () => {
   connect();
   console.log(`Listening to requests on port ${process.env.APP_PORT}`);
   setTimeout(() => {
-    console.log("server is live");
+    console.log("server is live and active");
   }, 300000);
 });
