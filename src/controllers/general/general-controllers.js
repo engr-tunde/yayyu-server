@@ -7,7 +7,6 @@ const Order = require("../../models/user/Order");
 const User = require("../../models/user/User");
 const { sendSuccess, sendError } = require("../../utils/helpers");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 const fetchAllProducts = async (req, res) => {
   try {

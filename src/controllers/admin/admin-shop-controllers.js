@@ -37,8 +37,8 @@ const addProduct = async (req, res) => {
       "-" +
       req.body.new_price +
       "-" +
-      req.body.colors.split(",")[0].toLowerCase();
-    req.body.colors = req.body.colors.toLowerCase().split(", ");
+      req.body.colors.split(";")[0].toLowerCase();
+    req.body.colors = req.body.colors.toLowerCase().split("; ");
   } else {
     item_slug = item_slug + "-" + req.body.new_price;
   }
@@ -54,7 +54,7 @@ const addProduct = async (req, res) => {
     req.body.description = req.body.specification;
     req.body.original_price = Number(req.body.original_price);
     req.body.new_price = Number(req.body.new_price);
-    req.body.specification = req.body.specification.split(". ");
+    req.body.specification = req.body.specification.split("; ");
     const newProduct = new Product(req.body);
 
     await newProduct.save();
@@ -66,29 +66,6 @@ const addProduct = async (req, res) => {
 };
 
 const editProduct = async (req, res) => {
-  let files;
-  files = req?.files;
-  if (files) {
-    if (req.files["img"]) {
-      const rawImgArray = req.files["img"];
-      const namedImg = rawImgArray.map((a) => a.filename);
-      const stringnifiedImg = JSON.stringify(namedImg);
-      const formmatedImg = stringnifiedImg.replace(/[^a-zA-Z0-9_.,]/g, "");
-      const img = formmatedImg.replace(/[,]/g, ", ");
-      req.body.img = img;
-    }
-    if (req.files["images"]) {
-      const rawImagesArray = req.files && req.files["images"];
-      const namedImage = rawImagesArray?.map((a) => a.filename);
-      const stringnifiedImages = JSON.stringify(namedImage);
-      const formmatedImages = stringnifiedImages?.replace(
-        /[^a-zA-Z0-9_.,]/g,
-        ""
-      );
-      const images = formmatedImages?.replace(/[,]/g, ", ");
-      req.body.images = images;
-    }
-  }
   try {
     const product = await Product.findByIdAndUpdate(
       req.params.id,
@@ -102,13 +79,55 @@ const editProduct = async (req, res) => {
   }
 };
 
+const editProductCover = async (req, res) => {
+  const rawImgArray = req.files && req.files["img"];
+  if (!rawImgArray) {
+    return badRequestError(res, "Product cover image is missing");
+  }
+  const namedImg = rawImgArray?.map((a) => a.filename);
+  const stringnifiedImg = JSON.stringify(namedImg);
+  const formmatedImg = stringnifiedImg.replace(/[^a-zA-Z0-9_.,]/g, "");
+  req.body.img = formmatedImg.replace(/[,]/g, ", ");
+
+  try {
+    const item = await Product.findById(req.params.id);
+    if (item) {
+      console.log("item", item);
+      let image = item.img;
+      const file_path = path.join("public/files/imgs/products", image);
+      console.log(file_path);
+
+      fs.unlink(file_path, (err) => {
+        if (err) {
+          console.log("there was a problem deleting the file from folder.");
+        } else {
+          console.log("file deteled from folder");
+        }
+      });
+    }
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+    return sendSuccess(
+      res,
+      "Successfully updated the product cover image",
+      product
+    );
+  } catch (err) {
+    console.log(err);
+    return sendError(res, "Unable to update the product");
+  }
+};
+
 const deleteProduct = async (req, res) => {
   try {
     const item = await Product.findById(req.params.id);
     if (item) {
       console.log("item", item);
       let image = item.img;
-      let images = item.images.split(", ");
+      let images = item.images.split("; ");
       const file_path = path.join("public/files/imgs/products", image);
       console.log(file_path);
       fs.unlink(file_path, (err) => {
@@ -122,9 +141,10 @@ const deleteProduct = async (req, res) => {
           fs.unlink(file_path2, (err) => {
             if (err) {
               console.log(`error deleting file ${element}`, err);
-              return;
+              // return;
+            } else {
+              console.log(`file ${element} deleted successfully`);
             }
-            console.log(`file ${element} deleted successfully`);
           });
         });
       });
@@ -391,6 +411,7 @@ const deleteOrder = async (req, res) => {
 module.exports = {
   addProduct,
   editProduct,
+  editProductCover,
   deleteProduct,
 
   addCategory,

@@ -22,6 +22,7 @@ const {
   cancelOrder,
   pendOrder,
   deleteOrder,
+  editProductCover,
 } = require("../../controllers/admin/admin-shop-controllers");
 const { productImageUpload } = require("../../utils/helpers/files");
 const {
@@ -29,22 +30,27 @@ const {
   fetchAllCategories,
   fetchAllShippingData,
   fetchGeneralDiscount,
+  fetchSingleProductByID,
+  fetchSingleProductBySlug,
 } = require("../../controllers/general/general-controllers");
 
 const router = express.Router();
 
 router.get("/fetch-all-products", verifyAdminLoginToken, fetchAllProducts);
+router.get("/single-product/:id", fetchSingleProductByID);
+router.get("/single-product-slug/:item_slug", fetchSingleProductBySlug);
 router.post(
   "/add-product",
   verifyAdminLoginToken,
   productImageUpload,
   addProduct
 );
+router.put("/update-product/:id", verifyAdminLoginToken, editProduct);
 router.put(
-  "/update-product/:id",
+  "/update-product-cover-img/:id",
   verifyAdminLoginToken,
   productImageUpload,
-  editProduct
+  editProductCover
 );
 router.delete("/delete-product/:id", verifyAdminLoginToken, deleteProduct);
 
