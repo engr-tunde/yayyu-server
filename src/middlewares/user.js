@@ -12,7 +12,7 @@ const validateNewUser = async (req, res, next) => {
   try {
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
-      return sendError(res, "Email already exists. Please login instead.", 206);
+      return sendError(res, "Email already exists. Please login instead.", 209);
     }
   } catch (err) {
     return sendTryCtachError(res, err);

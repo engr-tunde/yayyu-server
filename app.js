@@ -27,6 +27,7 @@ app.use(
       "http://192.168.0.159:5173",
       "http://localhost:5174",
       "https://yayyu-website.onrender.com",
+      "https://yayyu-admin.onrender.com",
     ],
   })
 );

@@ -43,7 +43,11 @@ const fetchSingleProductBySlug = async (req, res) => {
 const fetchAllCategories = async (req, res) => {
   try {
     const categories = await Category.find();
-    return sendSuccess(res, "Successfully fetched products", categories);
+    return sendSuccess(
+      res,
+      "Successfully fetched products categories",
+      categories
+    );
   } catch (err) {
     console.log(err);
     return sendError(res, "Unable to fetch product categories");

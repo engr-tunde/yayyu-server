@@ -1,28 +1,34 @@
 const Category = require("../../models/general/Category");
 const Product = require("../../models/general/Product");
-const { sendError, sendSuccess, generateSlug } = require("../../utils/helpers");
+const {
+  sendError,
+  sendSuccess,
+  generateSlug,
+  badRequestError,
+} = require("../../utils/helpers");
 const path = require("path");
 const fs = require("fs");
 const Shipping = require("../../models/general/Shipping");
 const Discount = require("../../models/general/Discount");
+const Order = require("../../models/user/Order");
 
 const addProduct = async (req, res) => {
-  if (!req.files) sendError(res, "Product images are missing");
-  let img;
-  let images;
-  if (req.files) {
-    console.log(req.files);
-    const rawImagesArray = req.files && req.files["images"];
+  const rawImgArray = req.files && req.files["img"];
+  if (!rawImgArray) {
+    return badRequestError(res, "Product cover image is missing");
+  }
+  const namedImg = rawImgArray?.map((a) => a.filename);
+  const stringnifiedImg = JSON.stringify(namedImg);
+  const formmatedImg = stringnifiedImg.replace(/[^a-zA-Z0-9_.,]/g, "");
+  req.body.img = formmatedImg.replace(/[,]/g, ", ");
+
+  const rawImagesArray = req.files && req.files["images"];
+
+  if (rawImagesArray) {
     const namedImage = rawImagesArray?.map((a) => a.filename);
     const stringnifiedImages = JSON.stringify(namedImage);
     const formmatedImages = stringnifiedImages?.replace(/[^a-zA-Z0-9_.,]/g, "");
-    images = formmatedImages?.replace(/[,]/g, ", ");
-
-    const rawImgArray = req.files && req.files["img"];
-    const namedImg = rawImgArray?.map((a) => a.filename);
-    const stringnifiedImg = JSON.stringify(namedImg);
-    const formmatedImg = stringnifiedImg.replace(/[^a-zA-Z0-9_.,]/g, "");
-    img = formmatedImg.replace(/[,]/g, ", ");
+    req.body.images = formmatedImages?.replace(/[,]/g, ", ");
   }
   let item_slug = await generateSlug(req.body.item_name.toLowerCase());
   if (req.body.colors) {
@@ -43,9 +49,7 @@ const addProduct = async (req, res) => {
       return sendError(res, "Product already exists in shop");
     }
 
-    req.body.images = images;
-    req.body.img = img;
-    req.body.added_by = req.id;
+    // req.body.added_by = req.id;
     req.body.item_slug = item_slug;
     req.body.description = req.body.specification;
     req.body.original_price = Number(req.body.original_price);
@@ -272,6 +276,118 @@ const deleteDiscount = async (req, res) => {
   }
 };
 
+const fetchOrders = async (req, res, next) => {
+  try {
+    const allOrders = await Order.find().limit(req.query.limit);
+    return sendSuccess(res, "Successfully fetched ll orders", allOrders);
+  } catch (error) {
+    console.log(error);
+    return sendError(res, "Unable to fetch the admins data");
+  }
+};
+
+const fetchSingleOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return sendError(res, "Order does not exist");
+    }
+    return sendSuccess(res, "Successfully fetched ll orders", order);
+  } catch (error) {
+    console.log(error);
+    return sendError(res, "Unable to fetch the order data");
+  }
+};
+
+const completeOrder = async (req, res) => {
+  console.log("delete order called");
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return badRequestError(res, "Unable to verify order details");
+    }
+    if (order.delivery_status === "Completed") {
+      return badRequestError(
+        res,
+        `Order ${order.order_title} is already completed`
+      );
+    }
+    order.delivery_status = "Completed";
+    await order.save();
+    console.log("order", order);
+    return sendSuccess(
+      res,
+      `Order ${order.order_title} has been marked as completed`
+    );
+  } catch (err) {
+    log(err);
+    return sendError(res, "Unable to complete order");
+  }
+};
+
+const cancelOrder = async (req, res) => {
+  console.log("cancel order called");
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return badRequestError(res, "Unable to verify order details");
+    }
+    if (order.delivery_status === "Canceled") {
+      return badRequestError(
+        res,
+        `Order ${order.order_title} is already cancelled`
+      );
+    }
+    order.delivery_status = "Canceled";
+    await order.save();
+    console.log("order", order);
+    return sendSuccess(
+      res,
+      `Order ${order.order_title} has been successfully canceled`
+    );
+  } catch (err) {
+    log(err);
+    return sendError(res, "Unable to cancel order");
+  }
+};
+
+const pendOrder = async (req, res) => {
+  console.log("pend order called");
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return badRequestError(res, "Unable to verify order details");
+    }
+    if (order.delivery_status === "Pending") {
+      return badRequestError(
+        res,
+        `Order ${order.order_title} is already pending`
+      );
+    }
+    order.delivery_status = "Pending";
+    await order.save();
+    console.log("order", order);
+    return sendSuccess(
+      res,
+      `Order ${order.order_title} has been marked as pending`
+    );
+  } catch (err) {
+    log(err);
+    return sendError(res, "Unable to pend order");
+  }
+};
+
+const deleteOrder = async (req, res) => {
+  console.log("delete order called");
+  try {
+    await Order.findByIdAndDelete(req.params.id);
+    return sendSuccess(res, "Successfully deleted the order");
+  } catch (err) {
+    console.log(err);
+    return sendError(res, "Unable to delete the order");
+  }
+};
+
 module.exports = {
   addProduct,
   editProduct,
@@ -288,4 +404,11 @@ module.exports = {
   addDiscount,
   editDiscount,
   deleteDiscount,
+
+  fetchOrders,
+  fetchSingleOrder,
+  completeOrder,
+  cancelOrder,
+  pendOrder,
+  deleteOrder,
 };

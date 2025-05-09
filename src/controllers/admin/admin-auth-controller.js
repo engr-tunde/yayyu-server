@@ -4,6 +4,7 @@ const {
   sendError,
   createRandomBytes,
   sendSuccess,
+  sendLoginError,
 } = require("../../utils/helpers");
 const ResetPasswordToken = require("../../models/user/ResetPasswordToken");
 const Admin = require("../../models/admin/Admin");
@@ -149,16 +150,15 @@ const verifyAdminLoginToken = (req, res, next) => {
   console.log("cookie:", cookies);
   const token = cookies.split("=")[1];
   if (!token) {
-    return sendError(
+    return sendLoginError(
       res,
-      "No session token. You are not authenticated for this operation",
-      209
+      "No session token. You are not authenticated for this operation"
     );
   }
   console.log("token:", token);
   jwt.verify(String(token), process.env.JWT_ADMIN_SECRET_KEY, (err, admin) => {
     if (err) {
-      return sendError(res, "Invalid authorisation token", 209);
+      return sendLoginError(res, "Invalid authorisation token");
     }
     req.id = admin.id;
     next();

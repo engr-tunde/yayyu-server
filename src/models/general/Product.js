@@ -5,7 +5,7 @@ const productSchema = new Schema({
   added_by: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Admin",
-    required: true,
+    // required: true,
   },
   item_name: {
     type: String,
