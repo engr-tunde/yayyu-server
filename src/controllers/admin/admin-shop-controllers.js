@@ -298,7 +298,9 @@ const deleteDiscount = async (req, res) => {
 
 const fetchOrders = async (req, res, next) => {
   try {
-    const allOrders = await Order.find().limit(req.query.limit);
+    const allOrders = await Order.find()
+      .sort({ _id: "desc" })
+      .limit(req.query.limit);
     return sendSuccess(res, "Successfully fetched ll orders", allOrders);
   } catch (error) {
     console.log(error);

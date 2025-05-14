@@ -75,8 +75,9 @@ const updateUserPassword = async (req, res, next) => {
 const fetchUserOrders = async (req, res) => {
   const userId = req.id;
   try {
-    const orders = await Order.find({ owner: userId }).limit(req.query.limit);
-    console.log({ orders });
+    const orders = await Order.find({ owner: userId })
+      .sort({ _id: "desc" })
+      .limit(req.query.limit);
     return sendSuccess(res, "Successfully fetched orders", orders);
   } catch (error) {
     return sendError(res, "Unable to fetch the users data");

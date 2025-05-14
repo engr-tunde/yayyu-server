@@ -10,7 +10,7 @@ const bcrypt = require("bcryptjs");
 
 const fetchAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().sort({ _id: "desc" });
     return sendSuccess(res, "Successfully fetched products", products);
     // return sendError(res, "Unable to fetch all products");
   } catch (err) {
@@ -55,7 +55,7 @@ const fetchAllCategories = async (req, res) => {
 
 const fetchReviews = async (req, res) => {
   try {
-    const reviews = await Review.find();
+    const reviews = await Review.find().sort({ _id: "desc" });
     return sendSuccess(res, "Successfully fetched reviews", reviews);
   } catch (err) {
     console.log(err);
@@ -64,7 +64,9 @@ const fetchReviews = async (req, res) => {
 };
 const fetchProductReviews = async (req, res) => {
   try {
-    const reviews = await Review.find({ owner: req.params.owner });
+    const reviews = await Review.find({ owner: req.params.owner }).sort({
+      _id: "desc",
+    });
     return sendSuccess(res, "Successfully fetched reviews", reviews);
   } catch (err) {
     console.log(err);

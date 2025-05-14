@@ -85,6 +85,13 @@ const orderSchema = new Schema({
     type: Number,
     required: true,
   },
+  payment_reference: {
+    type: String,
+  },
+  payment_status: {
+    type: String,
+    default: "Paid",
+  },
   delivery_status: {
     type: String,
     default: "Pending",
